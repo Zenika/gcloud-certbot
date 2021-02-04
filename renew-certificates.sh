@@ -1,9 +1,6 @@
 #!/bin/bash
 set -eo pipefail
 
-gcloud config set project ices-demo
-gcloud config set compute/zone europe-west3-a
-
 echo "Setup letsencrypt context..."
 
 gsutil -m rsync -r "${LETSENCRYPT_BUCKET}" /etc/letsencrypt
@@ -11,12 +8,17 @@ gsutil -m rsync -r "${LETSENCRYPT_BUCKET}" /etc/letsencrypt
 echo "Renewing certificate..."
 
 dns_provider_options="--dns-${DNS_PROVIDER}"
-if [ "${DNS_PROVIDER}" != "route53" ] || [ "${DNS_PROVIDER}" != "google" ]; then
+if [ "${DNS_PROVIDER}" != "route53" ] && [ "${DNS_PROVIDER}" != "google" ]; then
   echo -e "${DNS_PROVIDER_CREDENTIALS}" > /dns_api_key.ini
   dns_provider_options="${dns_provider_options} --dns-${DNS_PROVIDER}-credentials /dns_api_key.ini"
 fi
 
 service_domain_names=$(gcloud app services list --format "get(id)" | sed "s/\(.*\)/-d *.\1.${CUSTOM_DOMAIN}/" | paste -d " " -s)
+
+echo certbot command: certbot certonly -n \
+  -m "${LETSENCRYPT_CONTACT_EMAL}" --agree-tos \
+  --preferred-challenges dns ${dns_provider_options} \
+  -d "*.${CUSTOM_DOMAIN}" -d "${CUSTOM_DOMAIN}" ${service_domain_names}
 
 certbot certonly -n \
   -m "${LETSENCRYPT_CONTACT_EMAL}" --agree-tos \

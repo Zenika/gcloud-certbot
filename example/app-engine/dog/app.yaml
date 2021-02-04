@@ -1,0 +1,9 @@
+runtime: nodejs14
+service: dog
+
+handlers:
+
+- url: .*
+  static_files: dog.jpg
+  expiration: 364d
+  upload: dog.jpg

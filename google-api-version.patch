@@ -1,0 +1,29 @@
+diff --git a/certbot-dns-google/setup.py b/certbot-dns-google/setup.py
+index d104929b6..9663ce50b 100644
+--- a/certbot-dns-google/setup.py
++++ b/certbot-dns-google/setup.py
+@@ -11,7 +11,7 @@ version = '1.13.0.dev0'
+ # Remember to update local-oldest-requirements.txt when changing the minimum
+ # acme/certbot version.
+ install_requires = [
+-    'google-api-python-client>=1.5.5',
++    'google-api-python-client>=1.6',
+     'oauth2client>=4.0',
+     'setuptools>=39.0.1',
+     'zope.interface',
+diff --git a/tools/oldest_constraints.txt b/tools/oldest_constraints.txt
+index 1aabf6eeb..5ea12fe47 100644
+--- a/tools/oldest_constraints.txt
++++ b/tools/oldest_constraints.txt
+@@ -40,10 +40,10 @@ pbr==1.8.0
+ pytz==2012rc0
+ 
+ # Debian Buster constraints
+-google-api-python-client==1.5.5
+ pyparsing==2.2.0
+ 
+ # Our setup.py constraints
++google-api-python-client==1.6.0
+ apacheconfig==0.3.2
+ cloudflare==1.5.1
+ python-digitalocean==1.11
