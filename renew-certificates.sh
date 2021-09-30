@@ -16,12 +16,12 @@ fi
 service_domain_names=$(gcloud app services list --format "get(id)" | sed "s/\(.*\)/-d *.\1.${CUSTOM_DOMAIN}/" | paste -d " " -s)
 
 echo certbot command: certbot certonly -n \
-  -m "${LETSENCRYPT_CONTACT_EMAL}" --agree-tos \
+  -m "${LETSENCRYPT_CONTACT_EMAIL}" --agree-tos \
   --preferred-challenges dns ${dns_provider_options} \
   -d "*.${CUSTOM_DOMAIN}" -d "${CUSTOM_DOMAIN}" ${service_domain_names}
 
 certbot certonly -n \
-  -m "${LETSENCRYPT_CONTACT_EMAL}" --agree-tos \
+  -m "${LETSENCRYPT_CONTACT_EMAIL}" --agree-tos \
   --preferred-challenges dns ${dns_provider_options} \
   -d "*.${CUSTOM_DOMAIN}" -d "${CUSTOM_DOMAIN}" ${service_domain_names}
 
